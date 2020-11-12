@@ -43,6 +43,10 @@ class HomeController extends AbstractController
         $artist->setRadio($artist_data['radio']);
         $artist->setTracklist($artist_data['tracklist']);
 
+        /*$em = $this->getDoctrine()->getManager();
+        $em->persist($artist);
+        $em->flush();*/
+
 
 
         return $this->render('home/index.html.twig', [
@@ -50,5 +54,16 @@ class HomeController extends AbstractController
             'obj' => $obj_array,
             'artist' => $artist,
         ]);
+    }
+
+    /**
+     * @Route("/search/{art}", name="search")
+     */
+    public function SearchArtist($art) {
+        $artist_data = file_get_contents('https://api.deezer.com/search/artist/?q=artist:%22'.$art.'%22&index=0&limit=1000&output=json');
+        $response = new Response($artist_data);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 }
