@@ -79,18 +79,23 @@ class HomeController extends AbstractController
             $track->setArtist($this->getDoctrine()->getManager()->getRepository('App:Artist')->find($id));
             array_push($obj_array, $track);
         }
+
+        $idDb = array();
+        foreach ( $track_db as $key ){
+            array_push($idDb, $key->getId());
+        }
         
 
 
 
-        return $this->render('Track/newTrack.html.twig', ['track_db' => $track_db, 'track_api' => $obj_array]);
+        return $this->render('Track/newTrack.html.twig', ['track_db' => $track_db, 'track_api' => $obj_array, 'idDb' => $idDb]);
 
     }
 
     /**
-     * @Route("/addtrack/{id}", name="addTrack")
+     * @Route("/addtrack/{id}/{artist}", name="addTrack")
      */
-    public function addTrack($id){
+    public function addTrack($id,$artist){
         $track_data = file_get_contents('https://api.deezer.com/track/'.$id);
         $track_data = json_decode($track_data,true);
         $track = new Track();
@@ -99,13 +104,13 @@ class HomeController extends AbstractController
         $track->setLink($track_data['link']);
         $track->setDuration($track_data['duration']);
         $track->setRank($track_data['rank']);
-        $track->setArtist($this->getDoctrine()->getManager()->getRepository('App:Artist')->find($track_data['artist']['id']));
+        $track->setArtist($this->getDoctrine()->getManager()->getRepository('App:Artist')->find($artist));
 
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($track);
         $em->flush();
 
-        return $this->redirectToRoute('newTrack', ['id' => $track_data['artist']['id']], 301);
+        return $this->redirectToRoute('newTrack', ['id' => $artist], 301);
     }
 }

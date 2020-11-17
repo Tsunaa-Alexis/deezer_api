@@ -27,30 +27,31 @@
 
 <h1>API</h1>
 <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for track_db_n in track_db %}
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set a = 1 %}
         {% for track_api_n in track_api %}
-            {% if track_api_n.id != track_db_n.id %}
-                <tr>
-                    <th scope="row">{{track_api_n.id}}</th>
-                    <td>{{track_api_n.title}}</td>
-                    <td>{{track_api_n.link}}</td>
-                    <td>{{track_api_n.duration}}</td>
-                    <td><a href="{{ path("addTrack", {"id": track_api_n.id}) }}">Ajouter</a></td>
-                    {% set a = [track_api_n.id] %}
-                </tr>
-            {% endif %}
+                {% if track_api_n.id not in idDb %}
+                    <tr>
+                        <th scope="row">{{a}}</th>
+                        <td>{{track_api_n.id}}</td>
+                        <td>{{track_api_n.title}}</td>
+                        <td>{{track_api_n.link}}</td>
+                        <td>{{track_api_n.duration}}</td>
+                        <td><a href="{{ path("addTrack", {"id": track_api_n.id,"artist": track_api_n.artist.id }) }}">Ajouter</a></td>
+                        {% set a = a + 1 %}
+                    </tr>
+                {% endif %}
         {% endfor %}
-    {% endfor %}
-  </tbody>
+    </tbody>
 </table>
 {% endblock %}
