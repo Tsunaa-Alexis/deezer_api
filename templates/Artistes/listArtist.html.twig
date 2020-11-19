@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<h1>Artist</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Picture</th>
+      <th scope="col">id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Link</th>
+      <th scope="col">Nb album</th>
+      <th scope="col">Nb fan</th>
+      <th scope="col">#</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% set a = 1 %}
+    {% for artist_n in artist %}
+        <tr>
+            <th scope="row">{{a}}</th>
+            <td><img src="{{artist_n.pictureSmall}}"</td>
+            <th scope="row">{{artist_n.id}}</th>
+            <td>{{artist_n.name}}</td>
+            <td><a href="{{artist_n.link}}">{{artist_n.link}}</a></td>
+            <td>{{artist_n.nmalbum}}</td>
+            <td>{{artist_n.nbfan}}</td>
+            <td><a href="{{ path("newTrack", {"artist": artist_n.id }) }}">Voir plus</a></td>
+            {% set a = a + 1 %}
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -130,7 +130,7 @@ class Track
 
     public function getRank(): ?int
     {
-        return $this->rank;
+        return $this->ranks;
     }
 
     public function setRank(?int $rank): self

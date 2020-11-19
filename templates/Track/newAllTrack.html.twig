@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+<h1>New Track</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Artiste</th>
+            <th scope="col">id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Link</th>
+            <th scope="col">Duration</th>
+            <th scope="col">#</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% set a = 1 %}
+      {% for notin_n in track %}
+          <tr>
+            <th scope="row">{{a}}</th>
+            <th scope="row">{{notin_n.artist.name}}</th>
+            <td>{{notin_n.id}}</td>
+            <td>{{notin_n.title}}</td>
+            <td><a href="{{notin_n.link}}">{{notin_n.link}}</a></td>
+            <td>{{notin_n.duration}}</td>
+            <td><a href="{{ path("newTrack", {"artist": notin_n.artist.id}) }}">Ajouter</a></td>
+            {% set a = a + 1 %}
+          </tr>
+      {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
